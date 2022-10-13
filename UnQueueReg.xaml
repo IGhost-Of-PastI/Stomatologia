@@ -1,0 +1,35 @@
+﻿<Window x:Class="Stomatologia.UnQueueReg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Stomatologia"
+        mc:Ignorable="d"
+        Title="Талон вне очереди" Height="153.704" Width="403.951">
+    <Grid>
+        <ComboBox x:Name="MedVis" materialDesign:HintAssist.Hint=" Пациент" FontSize="20" HorizontalAlignment="Left" DisplayMemberPath="FullName" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Worker" materialDesign:HintAssist.Hint=" Стоматолог" HorizontalAlignment="Left" FontSize="20" DisplayMemberPath="Name" Margin="10,51,0,0" VerticalAlignment="Top">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding NumStatus}" Value="2">
+                            <Setter Property="IsEnabled" Value="False"/>
+
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding NumStatus}" Value="3">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                        </DataTrigger>
+                    </Style.Triggers>
+
+
+
+                </Style>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+        <Button Content="Выдать талон" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Margin="304,47,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+
+    </Grid>
+</Window>

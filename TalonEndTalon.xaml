@@ -1,0 +1,34 @@
+﻿<Window x:Class="Stomatologia.TalonEndTalon"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Stomatologia"
+        mc:Ignorable="d"
+        Title="Талон" Height="195.918" Width="800">
+    <Grid>
+        <TextBox x:Name="BoxSername" materialDesign:HintAssist.Hint=" Фамилия пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="10,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BoxName" materialDesign:HintAssist.Hint=" Имя пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="135,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BoxThirdName" materialDesign:HintAssist.Hint=" Отчество пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="260,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BoxBirthDate" materialDesign:HintAssist.Hint=" Дата рождения пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="10,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
+        <TextBox x:Name="BoxAge" materialDesign:HintAssist.Hint=" Взвраст пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="172,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52"/>
+        <TextBox x:Name="BoxTel" materialDesign:HintAssist.Hint=" Номер телефона пациента" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="104,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BoxSex" materialDesign:HintAssist.Hint=" Пол пацинета" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="89"/>
+        <TextBox x:Name="NumberTalon" materialDesign:HintAssist.Hint=" Номер талона" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="441,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="61"/>
+        <ComboBox x:Name="Status" materialDesign:HintAssist.Hint=" Статус" HorizontalAlignment="Left" Margin="662,8,0,0" VerticalAlignment="Top" Width="73">
+           
+        </ComboBox>
+        <TextBox x:Name="ArriveTime" materialDesign:HintAssist.Hint=" Дата записи" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="507,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="91"/>
+        <TextBox x:Name="NumOfRoom" materialDesign:HintAssist.Hint=" Имя кабинета" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="644,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="59"/>
+        <TextBox x:Name="BoxFIO" materialDesign:HintAssist.Hint=" ФИО стоматолога" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="441,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="198"/>
+        <TextBox x:Name="Cost" materialDesign:HintAssist.Hint=" Стоимость услуги" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="441,67,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="Usluga" materialDesign:HintAssist.Hint=" Оказанная услуга" HorizontalAlignment="Left" Margin="566,65,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Usluga_SelectionChanged">
+           
+        </ComboBox>
+        <Button Content="Печать" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="772" Height="50" Click="Button_Click"/>
+        <TextBox x:Name="ArriveTimeTime" materialDesign:HintAssist.Hint=" Время записи" HorizontalAlignment="Left" Height="23" Margin="603,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="54"/>
+
+
+    </Grid>
+</Window>

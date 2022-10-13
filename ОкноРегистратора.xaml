@@ -1,0 +1,532 @@
+﻿<Window x:Class="Stomatologia.ОкноРегистратора"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stomatologia"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Окно регистратора" Height="774" Width="1484"  MinHeight="774" MinWidth="1484">
+    <Window.Resources>
+
+        <local:DateTimeDay x:Key="MyConverterDay"/>
+        <local:SexConverter x:Key="MyConverterSex"/>
+        <local:DateConverter x:Key="MyConverterDate"/>
+        <local:TimeConverter x:Key="MyConverterTime"/>
+
+        <Style TargetType="Grid" x:Key="Gridtrigger">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Shifts}" Value="4">
+                    <Setter Property="Background" Value="Gray"/>
+
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ExitButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Background" Value="LightSeaGreen"></Setter>
+            <Setter Property="Margin" Value="0 15 0 0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#1a7767"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter 
+                                    x:Name="MyContentPresenter" 
+                                    Content="{TemplateBinding Content}" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="LightSeaGreen" DecelerationRatio="1"
+                                    To="#1ea69e" 
+                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Foreground.Color">
+                                            <ColorAnimation From="#1a7767" DecelerationRatio="1"
+                                    To="PaleVioletRed" 
+                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="#1ea69e" DecelerationRatio="1"
+                                    To="LightSeaGreen"
+                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Foreground.Color">
+                                            <ColorAnimation From="PaleVioletRed" DecelerationRatio="1"
+                                    To="#1a7767" 
+                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="61*"></RowDefinition>
+            <RowDefinition Height="682*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Content="Записать пациента" HorizontalAlignment="Right" VerticalAlignment="Center"  Click="Button_Click_1" Margin="0,10,10,10" Height="41"/>
+        <Button Content="Запись по живой очереди" HorizontalAlignment="Right"  VerticalAlignment="Center"  Click="Button_Click_2" Margin="0,10,172,10" Height="41"/>
+        <TabControl Style="{StaticResource MaterialDesignNavigatilRailTabControl}" Grid.ColumnSpan="2" Grid.Row="1" Background="LightSeaGreen" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+            <TabItem Header="Список записей" Width="138">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1051*"></ColumnDefinition>
+                        <ColumnDefinition Width="202*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="61*"></RowDefinition>
+                        <RowDefinition Height="682*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="listofVisits" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Stretch">
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border
+                                                   
+                                                        Background="{TemplateBinding Background}" 
+                                                       >
+
+
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border BorderThickness="5"  Grid.Column="0">
+                                                        <TextBlock Text="{Binding SerName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="1">
+                                                        <TextBlock Text="{Binding FirstName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="2">
+                                                        <TextBlock Text="{Binding ThridName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="3">
+                                                        <TextBlock Text="{Binding FIODoc}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="4">
+                                                        <TextBlock Text="{Binding NameSpec}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="5">
+                                                        <TextBlock Text="{Binding Status}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="6">
+                                                        <TextBlock Text="{Binding NumberTalon}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="7">
+                                                        <TextBlock Text="{Binding  ArrivingTime, Converter={StaticResource MyConverterDate}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="8">
+                                                        <TextBlock Text="{Binding  ArrivingTime, Converter={StaticResource MyConverterTime}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="9">
+                                                        <TextBlock Text="{Binding RoomName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                </Grid>
+                                                <Border.Style>
+
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="#e7e7e7" DecelerationRatio="1"
+                                    To="LightSeaGreen" 
+                                    Duration="0:0:0.2"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="LightSeaGreen" DecelerationRatio="1"
+                                    To="#e7e7e7"
+                                    Duration="0:0:0.3"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+
+
+                                                <Trigger Property="IsSelected" Value="True">
+
+
+
+                                                    <Setter Property="Foreground" Value="LightSeaGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+
+
+
+                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+
+                       
+                    </ListBox>
+                    <ComboBox x:Name="doc" HorizontalAlignment="Stretch" Grid.Column="1" materialDesign:HintAssist.Hint=" Список пациентов" Grid.Row="1"  DisplayMemberPath="FullName" VerticalAlignment="Top" SelectionChanged="doc_SelectionChanged" Margin="5,42,5,0">
+
+                    </ComboBox>
+                    <Button Content="Отметить" HorizontalAlignment="Left" VerticalAlignment="Center"  Click="Button_Click_5" Grid.Column="0" Margin="10,10,0,10" Height="36"/>
+                    <Button Content="Сброс" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Top" Width="Auto" Click="Button_Click_4" Margin="63,10,63,0"/>
+                    <ComboBox HorizontalAlignment="Left" x:Name="combostatus" materialDesign:HintAssist.Hint=" Статус приёма" Margin="109,10,0,0" Grid.Column="0" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Top" Width="Auto">
+                       
+                    </ComboBox>
+                    <ComboBox x:Name="searchdate" materialDesign:HintAssist.Hint=" Дата" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,72,5,0" Grid.Row="1" VerticalAlignment="Top" SelectionChanged="searchdate_SelectionChanged"/>
+                    <ComboBox x:Name="searchstatus" materialDesign:HintAssist.Hint=" Статус приёма" DisplayMemberPath="Name" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,102,5,0" Grid.Row="1" VerticalAlignment="Top" SelectionChanged="searchstatus_SelectionChanged"/>
+                    <RadioButton x:Name="downup_Copy" Content="По возврастаню(Даты)" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="0,133,0,0" Checked="downup_Copy_Checked" />
+                    <RadioButton x:Name="updown_Copy" Content="По убыванию(Даты)" HorizontalAlignment="Stretch" Margin="0,156,0,0" VerticalAlignment="Top"  Grid.Column="1" Grid.Row="1" Checked="updown_Copy_Checked"/>
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Картотека" Width="121">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1051*"></ColumnDefinition>
+                        <ColumnDefinition Width="202*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="61*"></RowDefinition>
+                        <RowDefinition Height="682*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="ListOfCards" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1"  VerticalAlignment="Stretch">
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border
+                                                   
+                                                        Background="{TemplateBinding Background}" 
+                                                       >
+
+
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border BorderThickness="5"  Grid.Column="0">
+                                                        <TextBlock Text="{Binding SerName}" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="1">
+                                                        <TextBlock Text="{Binding FirstName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="2">
+                                                        <TextBlock Text="{Binding ThirdName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="3">
+                                                        <TextBlock Text="{Binding BirthDate, Converter={StaticResource MyConverterDate}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="4">
+                                                        <TextBlock Text="{Binding Sex, Converter={StaticResource MyConverterSex}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="5">
+                                                        <TextBlock Text="{Binding Age}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+
+
+
+
+
+
+                                                </Grid>
+                                                <Border.Style>
+
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="#e7e7e7" DecelerationRatio="1"
+                                    To="LightSeaGreen" 
+                                    Duration="0:0:0.2"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="LightSeaGreen" DecelerationRatio="1"
+                                    To="#e7e7e7"
+                                    Duration="0:0:0.3"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+
+
+                                                <Trigger Property="IsSelected" Value="True">
+
+
+
+                                                    <Setter Property="Foreground" Value="LightSeaGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+
+
+
+                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        
+                    </ListBox>
+                    
+                    <Button Content="Изменить карту" x:Name="ChangeMedCard" HorizontalAlignment="Right" VerticalAlignment="Center" Width="Auto" Click="ChangeMedCard_Click" Grid.Column="1" Margin="0,10,10,10" Height="36"/>
+                    <RadioButton x:Name="downup" Content="По возврастаню" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Checked="downup_Checked" Margin="0,30,0,0" />
+                    <RadioButton x:Name="updown" Content="По убыванию" HorizontalAlignment="Stretch" Margin="0,53,0,0" VerticalAlignment="Top" Checked="updown_Checked" Grid.Column="1" Grid.Row="1"/>
+                    <Button Content="Просмотр" Grid.ColumnSpan="2" x:Name="VeiwButton" HorizontalAlignment="Right" VerticalAlignment="Center" Width="Auto" Click="VeiwButton_Click" Height="36" Margin="0,10,152,10"/>
+                    <TextBox x:Name="Serch" Grid.Column="1" Grid.Row="1" materialDesign:HintAssist.Hint=" Фамилия пациента" HorizontalAlignment="Stretch" Height="Auto"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" Margin="0,0,10,0" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Список отменённых записей" Width="223">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="61*"></RowDefinition>
+                        <RowDefinition Height="682*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1051*"></ColumnDefinition>
+                        <ColumnDefinition Width="202*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="listcancel" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch">
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border
+                                                   
+                                                        Background="{TemplateBinding Background}" 
+                                                       >
+
+
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition  Width="Auto" ></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto" ></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border BorderThickness="5"  Grid.Column="0">
+                                                        <TextBlock Text="{Binding SerName}" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="1">
+                                                        <TextBlock Text="{Binding FirstName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="2">
+                                                        <TextBlock Text="{Binding ThridName}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="3">
+                                                        <TextBlock Text="{Binding FIODoc}" HorizontalAlignment="Left" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="4">
+                                                        <TextBlock Text="{Binding NameSpec}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                   
+                                                    <Border BorderThickness="5"  Grid.Column="5">
+                                                        <TextBlock Text="{Binding  ArrivingTime, Converter={StaticResource MyConverterDate}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border BorderThickness="5"  Grid.Column="6">
+                                                        <TextBlock Text="{Binding  ArrivingTime, Converter={StaticResource MyConverterTime}}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                   
+                                                    <Border BorderThickness="5"  Grid.Column="7">
+                                                        <TextBlock Text="{Binding TelNumber}" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Border>
+
+
+
+
+
+
+
+
+
+                                                </Grid>
+                                                <Border.Style>
+
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="#e7e7e7" DecelerationRatio="1"
+                                    To="LightSeaGreen" 
+                                    Duration="0:0:0.2"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                                                            <ColorAnimation From="LightSeaGreen" DecelerationRatio="1"
+                                    To="#e7e7e7"
+                                    Duration="0:0:0.3"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+
+
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+
+
+                                                <Trigger Property="IsSelected" Value="True">
+
+
+
+                                                    <Setter Property="Foreground" Value="LightSeaGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+
+
+
+                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                      
+                    </ListBox>
+                    <ComboBox x:Name="doc_Copy" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" materialDesign:HintAssist.Hint=" Список пациентов"  DisplayMemberPath="FullName" VerticalAlignment="Top" Margin="5,42,5,0" SelectionChanged="doc_Copy_SelectionChanged"/>
+                    <ComboBox x:Name="searchdate_Copy" Grid.Row="1" materialDesign:HintAssist.Hint=" Дата" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,72,5,0" VerticalAlignment="Top" SelectionChanged="searchdate_Copy_SelectionChanged" />
+                    <Button Content="Сброс" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Margin="63,10,63,0" Click="Button_Click_6"/>
+                    <Button Content="Удалить" HorizontalAlignment="Left" Grid.Row="0" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="10,10,0,10" Height="36" Click="Button_Click_7"/>
+
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
+        <Button Content="Добавить нового пациента" x:Name="AddVisBut" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Button_Click" Margin="0,10,383,10" Height="41"/>
+        <Button Content="Выйти" Style="{StaticResource ExitButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="223" Height="72" Margin="0" Grid.Row="1" Click="Button_Click_3"/>
+        <Button Content="Справка" Style="{StaticResource ExitButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="223" Height="72" Margin="0,0,0,72" Grid.Row="1" Click="Button_Click_8"/>
+    </Grid>
+</Window>

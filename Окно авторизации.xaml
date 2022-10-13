@@ -1,0 +1,141 @@
+﻿<Window x:Class="Stomatologia.Окно_авторизации"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stomatologia"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Подключение к Базе данных" Height="258.288" Width="492.575">
+    <Window.Resources>
+        <Style x:Key="OkButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Background" Value="#FF47CD47"></Setter>
+            <Setter Property="Margin" Value="0 15 0 0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter 
+                                    x:Name="MyContentPresenter" 
+                                    Content="{TemplateBinding Content}" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="#FF47CD47" DecelerationRatio="1"
+                                    To="LightGreen" 
+                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                   
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="LightGreen" DecelerationRatio="1"
+                                    To="#FF47CD47"
+                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                  
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                          
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CancelButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Background" Value="#FFDA5555"></Setter>
+            <Setter Property="Margin" Value="0 15 0 0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter 
+                                    x:Name="MyContentPresenter" 
+                                    Content="{TemplateBinding Content}" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="#FFDA5555" DecelerationRatio="1"
+                                    To="LightCoral" 
+                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                 
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard Storyboard.TargetProperty="Background.Color">
+                                            <ColorAnimation From="LightCoral" DecelerationRatio="1"
+                                    To="#FFDA5555"
+                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                   
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                           
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Button Style="{StaticResource OkButton}" Content="Ок" HorizontalAlignment="Left" Margin="65,168,0,0" VerticalAlignment="Top" Width="92" Click="Button_Click" Height="30"/>
+        <Button Content="Отмена" Style="{StaticResource CancelButton}" HorizontalAlignment="Left" Margin="329,170,0,0" VerticalAlignment="Top" Width="92" Click="Button_Click_1" Height="30"/>
+
+        <ComboBox x:Name="Combo" Style="{StaticResource MaterialDesignComboBox}" FontWeight="SemiBold" materialDesign:HintAssist.Hint=" Пользователи" DisplayMemberPath="Name" FontSize="15" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="Auto" Margin="0,43,0,0">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding NumStatus}" Value="3">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                        </DataTrigger>
+                    </Style.Triggers>
+
+
+
+                </Style>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+        <Label  Visibility="Collapsed" Content="Имя пользователя:" HorizontalAlignment="Left" Margin="309,10,0,0" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="Pass" materialDesign:HintAssist.Hint=" Пароль" FontWeight="SemiBold" FontSize="15" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="Auto"/>
+        <Label Content="Пароль:"  Visibility="Collapsed" HorizontalAlignment="Left" Margin="394,39,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
